@@ -1,0 +1,60 @@
+# ---------------------------------------------------------------
+# Central configuration for the Telco churn pipeline.
+# All relative paths are resolved from the project root.
+# ---------------------------------------------------------------
+paths:
+  raw_data: data/raw/Telco-Customer-Churn_unprocessed.csv
+  processed_data: data/processed/telco_churn_processed.csv
+  model: artifacts/xgb_model.joblib
+  feature_columns: artifacts/feature_columns.json
+  best_params: artifacts/best_params.json
+  train_info: artifacts/train_info.json
+  metrics: artifacts/metrics.json
+  threshold_sweep: artifacts/threshold_sweep.csv
+
+data:
+  id_column: customerID
+  target: Churn
+  numeric_coerce: [TotalCharges]          # strings -> numbers (blanks become NaN)
+  binary_columns: [gender, Partner, Dependents, PhoneService, PaperlessBilling, Churn]
+  # NOTE: keys are quoted on purpose - unquoted Yes/No are parsed as booleans by YAML.
+  binary_mapping: {"Yes": 1, "No": 0, "Male": 1, "Female": 0}
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  threshold: 0.30                          # prioritises recall over precision
+  threshold_grid: [0.25, 0.30, 0.35, 0.40, 0.45, 0.50]
+  xgb_params:
+    n_estimators: 500
+    learning_rate: 0.05
+    max_depth: 6
+    subsample: 0.8
+    colsample_bytree: 0.8
+    random_state: 42
+    n_jobs: -1
+    eval_metric: logloss
+    # scale_pos_weight is computed from y_train automatically
+
+tuning:
+  n_trials: 30
+  cv_folds: 3
+  metric: recall                           # recall | precision | f1
+  seed: 42
+  search_space:
+    n_estimators:     {type: int,   low: 300,  high: 800}
+    learning_rate:    {type: float, low: 0.01, high: 0.2}
+    max_depth:        {type: int,   low: 3,    high: 10}
+    subsample:        {type: float, low: 0.5,  high: 1.0}
+    colsample_bytree: {type: float, low: 0.5,  high: 1.0}
+    min_child_weight: {type: int,   low: 1,    high: 10}
+    gamma:            {type: float, low: 0.0,  high: 5.0}
+    reg_alpha:        {type: float, low: 0.0,  high: 5.0}
+    reg_lambda:       {type: float, low: 0.0,  high: 5.0}
+
+mlflow:
+  enabled: true
+  db_path: mlflow.db
+  experiment_name: "Telco Churn - XGBoost"

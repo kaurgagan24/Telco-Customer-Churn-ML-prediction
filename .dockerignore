@@ -1,0 +1,17 @@
+
+.venv/
+__pycache__/
+*.pyc
+.git/
+.github/
+.ipynb_checkpoints/
+
+notebooks/
+data/
+tests/
+mlruns/
+great_expectations/
+
+mlflow.db
+*.log
+.env

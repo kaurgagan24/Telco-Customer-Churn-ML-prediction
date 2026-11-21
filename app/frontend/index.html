@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10213b"><title>Prediction workspace · Telco Churn</title>
+  <link rel="stylesheet" href="./style.css"><script defer src="./script.js"></script>
+</head>
+<body>
+<aside>
+  <div class="brand"><span class="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Telco Churn</div>
+  <nav aria-label="Workspace"><a href="#predict" aria-current="page"><span aria-hidden="true">◎</span> Prediction</a><a href="#analytics"><span aria-hidden="true">▥</span> Analytics</a></nav>
+  <footer><a href="/docs">API documentation ↗</a><div id="health" role="status"><i></i><span>Checking API…</span></div></footer>
+</aside>
+<main>
+  <header><span>Workspace <b>/</b> <strong id="crumb">Prediction</strong></span><span class="model">XGBoost</span></header>
+  <section id="predict">
+    <div class="intro"><h1>Customer churn prediction</h1><p>Estimate a customer's churn risk from their profile, services, and billing details.</p></div>
+    <form id="customer"><div class="column">
+      <article><div class="heading"><em aria-hidden="true">♙</em><div><h2>Customer profile</h2><p>Demographics and household details</p></div></div><div class="fields" id="profile"></div></article>
+      <article><div class="heading"><em aria-hidden="true">▦</em><div><h2>Subscribed services</h2><p>Phone, internet, and add-on services</p></div></div><div class="fields" id="services"></div></article>
+    </div><div class="column">
+      <article><div class="heading"><em aria-hidden="true">▤</em><div><h2>Account &amp; billing</h2><p>Contract terms and customer charges</p></div></div><div class="fields" id="billing"></div><div class="actions"><button id="submit">Predict churn <span aria-hidden="true">→</span></button></div></article>
+      <article id="result" aria-live="polite" tabindex="-1"><h2>Prediction result</h2><p>Run a prediction to see the churn probability and decision threshold.</p></article>
+    </div></form>
+  </section>
+  <section id="analytics" hidden><div class="intro"><h1>Model analytics</h1><p>Explore customer patterns and the performance of the trained classifier.</p></div>
+    <div id="report" aria-live="polite"></div>
+  </section>
+</main>
+</body></html>
